@@ -96,11 +96,13 @@ Cl.on('message', function(message) {
         text = filter.execute(text);
       });
       if (TwitterText.getTweetLength(text) <= 140) {
-        T.post('statuses/update', { status: text }, function(error, data, response) {
-          if (error) {
-            console.log('Posting tweet error: ' + error);
-          }
-        });
+        if (text.slice(0, 4) == "http") {
+          T.post('statuses/update', { status: text }, function(error, data, response) {
+            if (error) {
+              console.log('Posting tweet error: ' + error);
+            }
+          });
+        }
       }
       else {
         channel = Cl.getChannelByID(message.channel);
